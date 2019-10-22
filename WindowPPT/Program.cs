@@ -14,6 +14,8 @@ namespace WindowPPT
         static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X,
            int Y, int cx, int cy, uint uFlags);
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int MoveWindow(IntPtr hWnd, int x, int y, int nWidth, int nHeight, bool BRePaint);
         static void Main(string[] args)
         {
 
@@ -27,8 +29,8 @@ namespace WindowPPT
             //    }
             //}
 
-            //Process p = Process.Start("C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\POWERPNT.EXE", " /S C:\\Users\\User\\Desktop\\123.ppsx");
-            Process p = Process.Start("C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\POWERPNT.EXE", " /S "+args[0]);
+            Process p = Process.Start("C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\POWERPNT.EXE", " /S C:\\Users\\User\\Desktop\\123.ppsx");
+            //Process p = Process.Start("C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\POWERPNT.EXE", " /S "+args[0]);
 
             p.WaitForInputIdle();
 
@@ -43,7 +45,10 @@ namespace WindowPPT
                 IntPtr hwnd = p.MainWindowHandle;
                 if (hwnd.ToInt32() != 0)
                 {
-                    SetWindowPos(hwnd, HWND_TOPMOST, left, top, width, height, 0);
+                    // BOOL MoveWindow(HWND hWnd, int x, int y, int nWidth, int nHeight, BOOL bRepaint = TRUE);//
+
+                    MoveWindow(hwnd , left, top, width, height,true);
+                    //SetWindowPos(hwnd, HWND_TOPMOST, left, top, width, height, 0);
                     break;
                 }
             }
